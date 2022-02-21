@@ -1,0 +1,84 @@
+footer {
+    margin-top: 25vmax;
+    z-index: -1;
+    padding: 2vmax;
+    background-color: rgba(0,0,0,0.812);
+    color: white;
+    display: flex;
+    align-items: center;
+  }
+  
+  .leftfooter {
+    width: 20%;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+  }
+    .leftfooter > p {
+    text-align: center;
+    font-size: 1.2vmax;
+    font-family: "Roboto";
+      margin: 1vmax 0;
+  }
+  .leftfooter > div{
+       display: flex;
+       flex-direction: row;
+  }
+  .leftfooter > div > img {
+    width: 10vmax;
+    margin: 1vmax;
+    cursor: pointer;
+  }
+  
+  .middlefooter {
+    width: 60%;
+  
+    text-align: center;
+  }
+  
+  .middlefooter > h1 {
+    font-size: 4vmax;
+    font-family: "Allura";
+    color: #fdfcfc;
+  }
+  .middlefooter > p {
+    max-width: 60%;
+    font-family: "Roboto";
+    margin: 1vmax auto;
+  }
+  
+  .rightfooter {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Roboto";
+  }
+  .rightfooter > h4 {
+   
+    font-size: 1.4vmax;
+    padding: 1.5vmax 0;
+  }
+  .rightfooter > div > a {
+    text-decoration: none;
+    font-size: 1.7vmax;
+    color: white;
+    margin: 0.9vmax;
+  }
+
+
+  @media screen and (max-width: 800px){
+    .middlefooter > h1 {
+      font-size: 4vmax;
+      font-family: "Allura";
+      color: #fdfcfc;
+    }
+    .middlefooter > p {
+      max-width: 60%;
+      font-family: "Roboto";
+      margin: 1vmax auto;
+      font:500 1vmax "Roboto";
+    }
+     
+  }
+  
