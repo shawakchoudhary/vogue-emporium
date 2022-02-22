@@ -25,8 +25,6 @@ import Shipping from "./component/Cart/Shipping.js";
 import ConfirmOrder from "./component/Cart/ConfirmOrder.js";
 import axios from "axios";
 import Payment from "./component/Cart/Payment.js";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 import OrderSuccess from "./component/Cart/OrderSuccess.js";
 import MyOrders from "./component/Order/MyOrders.js";
 import OrderDetails from "./component/Order/OrderDetails.js";
@@ -45,13 +43,13 @@ import NotFound from "./component/layout/Not Found/NotFound";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
-  const [stripeApiKey, setStripeApiKey] = useState("");
+  // const [stripeApiKey, setStripeApiKey] = useState("");
 
-  async function getStripeApiKey() {
-    const { data } = await axios.get("/api/v1/stripeapikey");
+  // async function getStripeApiKey() {
+  //   const { data } = await axios.get("/api/v1/stripeapikey");
 
-    setStripeApiKey(data.stripeApiKey);
-  }
+  //   setStripeApiKey(data.stripeApiKey);
+  // }
 
   useEffect(() => {
     webFont.load({
@@ -61,7 +59,7 @@ function App() {
     });
 
     store.dispatch(loadUser());
-    getStripeApiKey();
+    // getStripeApiKey();
   }, []);
 
   // window.addEventListener("contextmenu", (e) => e.preventDefault());
@@ -70,24 +68,6 @@ function App() {
     <Router>
       <Header />
       {isAuthenticated && <UserOptions user={user} />}
-     
-
-      
-
-      {
-        stripeApiKey && (
-          <Elements stripe={loadStripe(stripeApiKey)}>
-        <ProtectedRoute
-          exact
-          path="/process/payment"
-          component={Payment}
-        />
-      </Elements>
-        )
-      }
-
-     
-
     <Switch>
     <Route exact path="/" component={Home} />
       <Route exact path="/product/:id" component={ProductDetails} />
@@ -131,12 +111,21 @@ function App() {
 
      <ProtectedRoute isAdmin={true} exact path = "/admin/reviews" component = {ProductReviews} />
 
+     <ProtectedRoute
+          exact
+          path="/process/payment"
+          component={Payment}
+        />
+
+
      <Route
           component={
             window.location.pathname === "/process/payment" ? null : NotFound
           }
         />
 
+  
+    
     </Switch>
 
   

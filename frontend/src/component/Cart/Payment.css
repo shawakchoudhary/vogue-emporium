@@ -42,6 +42,18 @@
     font-size: 1.6vmax;
     color: rgba(0, 0, 0, 0.623);
   }
+
+  .paymentForm > div > input{
+    padding: 1vmax 4vmax;
+    padding-right: 1vmax;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(0,0,0,0.207);
+     border-radius: 4px;
+     font: 300 1vmax "Roboto";
+     outline: none;
+  }
+
   
   .paymentFormBtn {
     border: none;
@@ -58,6 +70,8 @@
   .paymentFormBtn:hover {
     background-color: rgb(179, 66, 46);
   }
+    
+  
   @media screen and (max-width: 800px) {
     .paymentForm {
       width: 90%;

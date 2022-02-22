@@ -52,17 +52,6 @@
     transform: scale(1.1);
 }
 
-.banner::after{
-      content:"";
-      width: 100vw;
-      height: 100vmin;
-      background-color: white;
-     position: absolute; 
-     top: 0%;
-     left: 0;
-     clip-path: polygon(0 87%, 0% 100%, 100% 100%);
-     max-width: 100%;
-}
 
 .container{
     display: flex;

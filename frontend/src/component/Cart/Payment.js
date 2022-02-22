@@ -1,30 +1,31 @@
-import React, {Fragment, useEffect, useRef} from 'react';
+import React, {Fragment, useEffect,useState, useRef} from 'react';
 import CheckoutSteps from './CheckoutSteps';
 import { useSelector, useDispatch } from 'react-redux';
 import MetaData from '../layout/MetaData';
 import { Typography } from '@material-ui/core';
 import { useAlert } from 'react-alert';
-import { CardNumberElement, CardCvcElement,CardExpiryElement,useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from 'axios';
 import "./Payment.css";
-import CreditCardIcon  from '@material-ui/icons/CreditCard';
-import  EventIcon  from "@material-ui/icons/Event";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import AddCardIcon from '@material-ui/icons/CardMembership';
+import KeyIcon from '@mui/icons-material/VpnKey';
+import EventIcon from '@mui/icons-material/Event';
 import { clearErrors, createOrder } from '../../actions/orderAction';
 
 const Payment = ({ history }) => {
     const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
     const dispatch = useDispatch();
     const alert = useAlert();
-    const stripe = useStripe();
-    const elements = useElements();
+    // const stripe = useStripe();
+    // const elements = useElements();
     const payBtn = useRef(null);
 
     const { shippingInfo, cartItems  } = useSelector((state)=> state.cart);
     const { user } = useSelector((state)=>state.user);
     const { error } =  useSelector((state)=> state.newOrder);
 
-   
+    const [cardNumber, setName ] = useState(0);
+    const [expriyDate, setdate] = useState("");
+    const [cvv, setCVV] = useState(0);
     
 
     const paymentData = {
@@ -40,58 +41,18 @@ const Payment = ({ history }) => {
         totalPrice: orderInfo.totalPrice,
     };
 
-
+     
+    
 
     const submitHandler = async(e)=>{
         e.preventDefault();
         payBtn.current.disabled = true;
-         try {
-             const config = {
-                 headers:{
-                     "Content-Type" : "application/json",
-                 },
-             };
-             const { data } = await axios.post("/api/v1/payment/process", paymentData,config);
-             const client_secret = data.client_secret;
-             if( !stripe || !elements) return;
-             const result = await stripe.confirmCardPayment(client_secret, {
-               payment_method:{
-                   card: elements.getElement(CardNumberElement),
-                   billing_details:{
-                       name: user.name,
-                       email: user.email,
-                       address:{
-                           line1: shippingInfo.address,
-                           city: shippingInfo.city,
-                           postal_code: shippingInfo.pinCode,
-                           country: shippingInfo.country,
-                       },
-                   }, 
-               },
-             });
-            
-             if(result.error){
-                 payBtn.current.disabled = false;
-                 alert.error(result.error.message);
-             } else{
-                 if(result.paymentIntent.status ==="succeeded"){
-                     order.paymentInfo = {
-                         id: result.paymentIntent.id,
-                         status : result.paymentIntent.status,
-
-                     }
+            //  const { data } = await axios.post("/api/v1/payment/process", paymentData,config);
+            order.paymentInfo = {
+                status: "succeeded",
+              };
                      dispatch(createOrder(order));
                      history.push("/success");
-                 }else{
-                     alert.error("error during payment processing");
-                 }
-             }
-             
-         } catch (error) {
-            payBtn.current.disabled = false;
-            alert.error(error.response.data.message);
-             
-         }
     }
 
     useEffect(() => {
@@ -110,18 +71,33 @@ const Payment = ({ history }) => {
             <div className="paymentContainer">
                 <form className="paymentForm" onSubmit = {(e)=> submitHandler(e)}>
                     <Typography>Card Details</Typography>
+                    
                     <div>
-                        <CreditCardIcon />
-                        <CardNumberElement className="paymentInput"/>
-                    </div>
-                    <div>
-                        <EventIcon />
-                        <CardExpiryElement className="paymentInput"/>
-                    </div>
-                    <div>
-                        <VpnKeyIcon />
-                        <CardCvcElement className="paymentInput"/>
-                    </div>
+              <AddCardIcon />
+              <input    
+               type="number" name="card-num" placeholder="0000 0000 0000 0000" minlength="16" maxlength="16"
+                required 
+              />
+            </div>
+
+            <div>
+              < EventIcon />
+              <input
+               type="month" id="start" name="start"
+              min="2018-03" value="2018-05"
+                placeholder="Expiry Date"
+                required
+              />
+            </div>
+
+            <div>
+              <KeyIcon />
+              <input
+                type="number"
+                placeholder="CVV" minlength="3" maxlength="3"
+                required
+              />
+            </div>
                     <input
                     type="submit"
                     value={`Pay -  ₹${orderInfo && orderInfo.totalPrice}`}
