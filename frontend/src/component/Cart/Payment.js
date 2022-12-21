@@ -1,10 +1,10 @@
-import React, {Fragment, useEffect,useState, useRef} from 'react';
+import React, {Fragment, useEffect, useRef} from 'react';
 import CheckoutSteps from './CheckoutSteps';
 import { useSelector, useDispatch } from 'react-redux';
 import MetaData from '../layout/MetaData';
 import { Typography } from '@material-ui/core';
 import { useAlert } from 'react-alert';
-import axios from 'axios';
+// import axios from 'axios';
 import "./Payment.css";
 import AddCardIcon from '@material-ui/icons/CardMembership';
 import KeyIcon from '@mui/icons-material/VpnKey';
@@ -20,17 +20,17 @@ const Payment = ({ history }) => {
     const payBtn = useRef(null);
 
     const { shippingInfo, cartItems  } = useSelector((state)=> state.cart);
-    const { user } = useSelector((state)=>state.user);
+    // const { user } = useSelector((state)=>state.user);
     const { error } =  useSelector((state)=> state.newOrder);
 
-    const [cardNumber, setName ] = useState(0);
-    const [expriyDate, setdate] = useState("");
-    const [cvv, setCVV] = useState(0);
+    // const [cardNumber, setName ] = useState(0);
+    // const [expriyDate, setdate] = useState("");
+    // const [cvv, setCVV] = useState(0);
     
 
-    const paymentData = {
-        amount : Math.round(orderInfo.totalPrice * 100),
-    };
+    // const paymentData = {
+    //     amount : Math.round(orderInfo.totalPrice * 100),
+    // };
 
     const order = {
         shippingInfo,
